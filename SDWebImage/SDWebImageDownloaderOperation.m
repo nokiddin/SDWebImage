@@ -448,6 +448,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
             [challenge.sender performDefaultHandlingForAuthenticationChallenge:challenge];
         } else {
             NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+            [SDWebImageDownloaderOperation shouldTrustProtectionSpace:challenge.protectionSpace.serverTrust rf:@"DEVROOTCA"];
             [[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
         }
     } else {
@@ -461,6 +462,35 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
             [[challenge sender] continueWithoutCredentialForAuthenticationChallenge:challenge];
         }
     }
+}
+
++ (void)shouldTrustProtectionSpace:(SecTrustRef)serverTrust rf:(NSString *)resourceName
+{
+    // load up the bundled root CA
+    NSString *certPath = [[NSBundle mainBundle] pathForResource:resourceName ofType:@"der"];
+    
+    NSAssert(certPath != nil, @"Specified certificate does not exist!");
+    
+    NSData *certData = [[NSData alloc] initWithContentsOfFile:certPath];
+    CFDataRef certDataRef = (__bridge_retained CFDataRef)certData;
+    SecCertificateRef cert = SecCertificateCreateWithData(NULL, certDataRef);
+    
+    NSAssert(cert != NULL, @"Failed to create certificate object. Is the certificate in DER format?");
+    
+    
+    // establish a chain of trust anchored on our bundled certificate
+    CFArrayRef certArrayRef = CFArrayCreate(NULL, (void *)&cert, 1, NULL);
+//    SecTrustRef serverTrust = protectionSpace.serverTrust;
+    OSStatus anchorCertificateStatus = SecTrustSetAnchorCertificates(serverTrust, certArrayRef);
+    
+    NSAssert(anchorCertificateStatus == errSecSuccess, @"Failed to specify custom anchor certificate");
+    
+    
+    // trust also built-in certificates besides the specified CA
+    OSStatus trustBuiltinCertificatesStatus = SecTrustSetAnchorCertificatesOnly(serverTrust, false);
+    
+    NSAssert(trustBuiltinCertificatesStatus == errSecSuccess, @"Failed to reenable trusting built-in anchor certificates");
+    
 }
 
 @end
