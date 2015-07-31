@@ -115,9 +115,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
 
 - (void)authenticationChallengeBlock:(void (^)(NSURLAuthenticationChallenge *))block
 {
-    NSLog(@"SDWebImageDownloader called auth block 1");
     self.authenticationChallengeBlock = block;
-    NSLog(@"SDWebImageDownloader called auth block 1");
 }
 
 - (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url options:(SDWebImageDownloaderOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageDownloaderCompletedBlock)completedBlock {
