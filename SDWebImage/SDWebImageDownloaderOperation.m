@@ -450,8 +450,11 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
         } else {
             NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
 //            [SDWebImageDownloaderOperation shouldTrustProtectionSpace:challenge.protectionSpace.serverTrust rf:@"DEVROOTCA"];
+                NSLog(@"SDWebImageDownloader called auth block 3");
             if (self.authenticationChallengeBlock) {
+                NSLog(@"SDWebImageDownloader called auth block 4");
                 self.authenticationChallengeBlock(challenge);
+                NSLog(@"SDWebImageDownloader called auth block 5");                
             }
             [[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
         }
