@@ -53,7 +53,7 @@ extern NSString *const SDWebImageDownloadFinishNotification;
  * The response returned by the operation's connection.
  */
 @property (strong, nonatomic) NSURLResponse *response;
-
+@property (copy, nonatomic) SDWebImageDownloaderAuthenticationChallengeBlock authenticationChallengeBlock;
 /**
  *  Initializes a `SDWebImageDownloaderOperation` object
  *
@@ -75,6 +75,6 @@ extern NSString *const SDWebImageDownloadFinishNotification;
             completed:(SDWebImageDownloaderCompletedBlock)completedBlock
             cancelled:(SDWebImageNoParamsBlock)cancelBlock;
 
-- (void)authenticationChallengeBlock:(void (^)(NSURLAuthenticationChallenge *challenge))block;
+//- (void)authenticationChallengeBlock:(void (^)(NSURLAuthenticationChallenge *challenge))block;
 
 @end

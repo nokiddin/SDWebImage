@@ -22,7 +22,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
 @property (copy, nonatomic) SDWebImageDownloaderProgressBlock progressBlock;
 @property (copy, nonatomic) SDWebImageDownloaderCompletedBlock completedBlock;
 @property (copy, nonatomic) SDWebImageNoParamsBlock cancelBlock;
-@property (copy, nonatomic) SDWebImageDownloaderAuthenticationChallengeBlock authenticationChallengeBlock;
+
 
 @property (assign, nonatomic, getter = isExecuting) BOOL executing;
 @property (assign, nonatomic, getter = isFinished) BOOL finished;
@@ -468,10 +468,10 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
     }
 }
 
-- (void)authenticationChallengeBlock:(void (^)(NSURLAuthenticationChallenge *))block
-{
-    self.authenticationChallengeBlock = block;
-}
+//- (void)authenticationChallengeBlock:(void (^)(NSURLAuthenticationChallenge *))block
+//{
+//    self.authenticationChallengeBlock = block;
+//}
 
 //+ (void)shouldTrustProtectionSpace:(SecTrustRef)serverTrust rf:(NSString *)resourceName
 //{
