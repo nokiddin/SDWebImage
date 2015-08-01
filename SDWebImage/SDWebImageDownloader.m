@@ -175,8 +175,11 @@ static NSString *const kCompletedCallbackKey = @"completed";
                                                             dispatch_barrier_async(sself.barrierQueue, ^{
                                                                 [sself.URLCallbacks removeObjectForKey:url];
                                                             });
+                                                        }
+                                                        authenticationChallenge:^(NSURLAuthenticationChallenge *challenge) {
+                                                                
                                                         }];
-        operation.authenticationChallengeBlock = wself.authenticationChallengeBlock;
+
         operation.shouldDecompressImages = wself.shouldDecompressImages;
         
         if (wself.username && wself.password) {
