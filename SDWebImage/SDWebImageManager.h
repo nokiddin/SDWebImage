@@ -90,7 +90,7 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
      */
     SDWebImageAvoidAutoSetImage = 1 << 11,
     
-    SDWebAuthenticationChallenge = 1 << 12
+    SDWebImageAuthenticationChallenge = 1 << 12
 };
 
 typedef void(^SDWebImageCompletionBlock)(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL);
