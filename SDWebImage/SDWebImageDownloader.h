@@ -144,8 +144,6 @@ typedef NSDictionary *(^SDWebImageDownloaderHeadersFilterBlock)(NSURL *url, NSDi
  */
 - (NSString *)valueForHTTPHeaderField:(NSString *)field;
 
-- (void)authenticationChallengeBlock:(void (^)(NSURLAuthenticationChallenge *))block;
-
 /**
  * Sets a subclass of `SDWebImageDownloaderOperation` as the default
  * `NSOperation` to be used each time SDWebImage constructs a request

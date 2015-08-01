@@ -20,7 +20,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
 @property (assign, nonatomic) Class operationClass;
 @property (strong, nonatomic) NSMutableDictionary *URLCallbacks;
 @property (strong, nonatomic) NSMutableDictionary *HTTPHeaders;
-@property (copy, nonatomic) SDWebImageDownloaderAuthenticationChallengeBlock authenticationChallengeBlock;
+
 // This queue is used to serialize the handling of the network responses of all the download operation in a single queue
 @property (SDDispatchQueueSetterSementics, nonatomic) dispatch_queue_t barrierQueue;
 
@@ -111,11 +111,6 @@ static NSString *const kCompletedCallbackKey = @"completed";
 
 - (void)setOperationClass:(Class)operationClass {
     _operationClass = operationClass ?: [SDWebImageDownloaderOperation class];
-}
-
-- (void)authenticationChallengeBlock:(void (^)(NSURLAuthenticationChallenge *))block
-{
-    self.authenticationChallengeBlock = block;
 }
 
 - (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url options:(SDWebImageDownloaderOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageDownloaderCompletedBlock)completedBlock {
