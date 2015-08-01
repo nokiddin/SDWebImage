@@ -47,7 +47,7 @@
                                              completedBlock(image, error, cacheType, url);
                                          }
                                      });
-        }];
+        } authenticationChallenge:nil];
         [self sd_setImageLoadOperation:operation forKey:UIImageViewHighlightedWebCacheOperationKey];
     } else {
         dispatch_main_async_safe(^{

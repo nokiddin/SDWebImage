@@ -81,7 +81,7 @@ static char imageURLStorageKey;
                 completedBlock(image, error, cacheType, url);
             }
         });
-    }];
+    }authenticationChallenge:nil];
     [self sd_setImageLoadOperation:operation forState:state];
 }
 
@@ -124,7 +124,7 @@ static char imageURLStorageKey;
                     completedBlock(image, error, cacheType, url);
                 }
             });
-        }];
+        } authenticationChallenge:nil];
         [self sd_setBackgroundImageLoadOperation:operation forState:state];
     } else {
         dispatch_main_async_safe(^{

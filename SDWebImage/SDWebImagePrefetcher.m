@@ -96,7 +96,7 @@
             }
             self.progressBlock = nil;
         }
-    }];
+    } authenticationChallenge:nil];
 }
 
 - (void)reportStatus {

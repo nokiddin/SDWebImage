@@ -110,7 +110,8 @@
 - (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url
                                          options:(SDWebImageOptions)options
                                         progress:(SDWebImageDownloaderProgressBlock)progressBlock
-                                       completed:(SDWebImageCompletionWithFinishedBlock)completedBlock {
+                                       completed:(SDWebImageCompletionWithFinishedBlock)completedBlock
+                         authenticationChallenge:(SDWebImageDownloaderAuthenticationChallengeBlock)authenticationChallengeBlock {
     // Invoking this method without a completedBlock is pointless
     NSAssert(completedBlock != nil, @"If you mean to prefetch the image, use -[SDWebImagePrefetcher prefetchURLs] instead");
 
@@ -246,7 +247,7 @@
                         [self.runningOperations removeObject:operation];
                     }
                 }
-            }];
+            } authenticationChallengeBlock:authenticationChallengeBlock];
             operation.cancelBlock = ^{
                 [subOperation cancel];
                 
@@ -348,7 +349,7 @@
                                 if (completedBlock) {
                                     completedBlock(image, error, cacheType, finished);
                                 }
-                            }];
+                            } authenticationChallenge:nil];
 }
 
 @end
