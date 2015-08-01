@@ -451,7 +451,7 @@ authenticationChallenge:(SDWebImageDownloaderAuthenticationChallengeBlock)authen
             [challenge.sender respondsToSelector:@selector(performDefaultHandlingForAuthenticationChallenge:)]) {
             [challenge.sender performDefaultHandlingForAuthenticationChallenge:challenge];
         } else {
-            if((self.options & SDWebImageAuthenticationChallenge) && self.authenticationChallengeBlock ){
+            if(!(self.options & SDWebImageAuthenticationChallenge) && self.authenticationChallengeBlock ){
                 self.authenticationChallengeBlock(challenge);
             } else {
                 NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
