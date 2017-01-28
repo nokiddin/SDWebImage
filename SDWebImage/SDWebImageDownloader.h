@@ -70,7 +70,7 @@ typedef void(^SDWebImageDownloaderProgressBlock)(NSInteger receivedSize, NSInteg
 
 typedef void(^SDWebImageDownloaderCompletedBlock)(UIImage *image, NSData *data, NSError *error, BOOL finished);
 
-typedef void (^SDWebImageDownloaderAuthenticationChallengeBlock)(NSURLAuthenticationChallenge *challenge);
+typedef void (^SDWebImageDownloaderServerTrustChallengeBlock)(NSURLAuthenticationChallenge *challenge);
 
 typedef NSDictionary *(^SDWebImageDownloaderHeadersFilterBlock)(NSURL *url, NSDictionary *headers);
 
@@ -179,7 +179,7 @@ typedef NSDictionary *(^SDWebImageDownloaderHeadersFilterBlock)(NSURL *url, NSDi
                                          options:(SDWebImageDownloaderOptions)options
                                         progress:(SDWebImageDownloaderProgressBlock)progressBlock
                                        completed:(SDWebImageDownloaderCompletedBlock)completedBlock
-                    authenticationChallengeBlock:(SDWebImageDownloaderAuthenticationChallengeBlock)authenticationChallengeBlock;
+					   serverTrustChallengeBlock:(SDWebImageDownloaderServerTrustChallengeBlock)serverTrustChallengeBlock;
 
 /**
  * Sets the download queue suspension state

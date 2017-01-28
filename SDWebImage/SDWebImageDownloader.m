@@ -113,7 +113,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
     _operationClass = operationClass ?: [SDWebImageDownloaderOperation class];
 }
 
-- (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url options:(SDWebImageDownloaderOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageDownloaderCompletedBlock)completedBlock authenticationChallengeBlock:(SDWebImageDownloaderAuthenticationChallengeBlock)authenticationChallengeBlock {
+- (id <SDWebImageOperation>)downloadImageWithURL:(NSURL *)url options:(SDWebImageDownloaderOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageDownloaderCompletedBlock)completedBlock serverTrustChallengeBlock:(SDWebImageDownloaderServerTrustChallengeBlock)serverTrustChallengeBlock {
     __block SDWebImageDownloaderOperation *operation;
     __weak __typeof(self)wself = self;
 
@@ -171,7 +171,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
                                                                 [sself.URLCallbacks removeObjectForKey:url];
                                                             });
                                                         }
-                                                        authenticationChallenge:authenticationChallengeBlock];
+                                                        serverTrustChallenge:serverTrustChallengeBlock];
 
         operation.shouldDecompressImages = wself.shouldDecompressImages;
         

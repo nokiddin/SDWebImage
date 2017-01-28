@@ -90,13 +90,13 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
      */
     SDWebImageAvoidAutoSetImage = 1 << 11,
     
-    SDWebImageAuthenticationChallenge = 1 << 12
+
 };
 
 typedef void(^SDWebImageCompletionBlock)(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL);
 
 typedef void(^SDWebImageCompletionWithFinishedBlock)(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL);
-typedef void (^SDWebImageDownloaderAuthenticationChallengeBlock)(NSURLAuthenticationChallenge *challenge);
+typedef void (^SDWebImageServerTrustChallengeBlock)(NSURLAuthenticationChallenge *challenge);
 
 typedef NSString *(^SDWebImageCacheKeyFilterBlock)(NSURL *url);
 
@@ -211,7 +211,7 @@ SDWebImageManager *manager = [SDWebImageManager sharedManager];
                                          options:(SDWebImageOptions)options
                                         progress:(SDWebImageDownloaderProgressBlock)progressBlock
                                        completed:(SDWebImageCompletionWithFinishedBlock)completedBlock
-                         authenticationChallenge:(SDWebImageDownloaderAuthenticationChallengeBlock) authenticationChallengeBlock;
+                       serverTrustChallengeBlock:(SDWebImageServerTrustChallengeBlock) serverTrustChallengeBlock;
 
 /**
  * Saves image to cache for given URL

@@ -73,6 +73,6 @@ extern NSString *const SDWebImageDownloadFinishNotification;
              progress:(SDWebImageDownloaderProgressBlock)progressBlock
             completed:(SDWebImageDownloaderCompletedBlock)completedBlock
             cancelled:(SDWebImageNoParamsBlock)cancelBlock
-authenticationChallenge:(SDWebImageDownloaderAuthenticationChallengeBlock)authenticationChallengeBlock;
+ serverTrustChallenge:(SDWebImageDownloaderServerTrustChallengeBlock)serverTrustChallengeBlock;
 
 @end

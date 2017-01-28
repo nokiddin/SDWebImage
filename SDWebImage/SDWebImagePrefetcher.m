@@ -22,6 +22,7 @@
 @property (assign, nonatomic) NSTimeInterval startedTime;
 @property (copy, nonatomic) SDWebImagePrefetcherCompletionBlock completionBlock;
 @property (copy, nonatomic) SDWebImagePrefetcherProgressBlock progressBlock;
+@property (copy, nonatomic) SDWebImagePrefetcherServerTrustChallengeBlock serverTrustChallengeBlock;
 
 @end
 
@@ -57,7 +58,10 @@
 - (void)startPrefetchingAtIndex:(NSUInteger)index {
     if (index >= self.prefetchURLs.count) return;
     self.requestedCount++;
-    [self.manager downloadImageWithURL:self.prefetchURLs[index] options:self.options progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+    [self.manager downloadImageWithURL:self.prefetchURLs[index]
+                             options:  self.options
+                             progress: nil
+                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
         if (!finished) return;
         self.finishedCount++;
 
@@ -96,7 +100,12 @@
             }
             self.progressBlock = nil;
         }
-    } authenticationChallenge:nil];
+    }
+                  serverTrustChallengeBlock:^(NSURLAuthenticationChallenge* challenge){
+                      if(self.serverTrustChallengeBlock){
+                          self.serverTrustChallengeBlock(challenge);
+                      }
+                  }];
 }
 
 - (void)reportStatus {
@@ -111,15 +120,16 @@
 }
 
 - (void)prefetchURLs:(NSArray *)urls {
-    [self prefetchURLs:urls progress:nil completed:nil];
+    [self prefetchURLs:urls progress:nil completed:nil serverTrustChallengeBlock:nil];
 }
 
-- (void)prefetchURLs:(NSArray *)urls progress:(SDWebImagePrefetcherProgressBlock)progressBlock completed:(SDWebImagePrefetcherCompletionBlock)completionBlock {
+- (void)prefetchURLs:(NSArray *)urls progress:(SDWebImagePrefetcherProgressBlock)progressBlock completed:(SDWebImagePrefetcherCompletionBlock)completionBlock serverTrustChallengeBlock:(SDWebImagePrefetcherServerTrustChallengeBlock)serverTrustChallengeBlock{
     [self cancelPrefetching]; // Prevent duplicate prefetch request
     self.startedTime = CFAbsoluteTimeGetCurrent();
     self.prefetchURLs = urls;
     self.completionBlock = completionBlock;
     self.progressBlock = progressBlock;
+    self.serverTrustChallengeBlock = serverTrustChallengeBlock;
 
     if(urls.count == 0){ 
         if(completionBlock){

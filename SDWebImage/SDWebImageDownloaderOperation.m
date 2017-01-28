@@ -22,7 +22,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
 @property (copy, nonatomic) SDWebImageDownloaderProgressBlock progressBlock;
 @property (copy, nonatomic) SDWebImageDownloaderCompletedBlock completedBlock;
 @property (copy, nonatomic) SDWebImageNoParamsBlock cancelBlock;
-@property (copy, nonatomic) SDWebImageDownloaderAuthenticationChallengeBlock authenticationChallengeBlock;
+@property (copy, nonatomic) SDWebImageDownloaderServerTrustChallengeBlock serverTrustChallengeBlock;
 
 
 @property (assign, nonatomic, getter = isExecuting) BOOL executing;
@@ -51,7 +51,7 @@ NSString *const SDWebImageDownloadFinishNotification = @"SDWebImageDownloadFinis
              progress:(SDWebImageDownloaderProgressBlock)progressBlock
             completed:(SDWebImageDownloaderCompletedBlock)completedBlock
             cancelled:(SDWebImageNoParamsBlock)cancelBlock
-authenticationChallenge:(SDWebImageDownloaderAuthenticationChallengeBlock)authenticationChallengeBlock {
+ serverTrustChallenge:(SDWebImageDownloaderServerTrustChallengeBlock)serverTrustChallengeBlock {
     if ((self = [super init])) {
         _request = request;
         _shouldDecompressImages = YES;
@@ -60,7 +60,7 @@ authenticationChallenge:(SDWebImageDownloaderAuthenticationChallengeBlock)authen
         _progressBlock = [progressBlock copy];
         _completedBlock = [completedBlock copy];
         _cancelBlock = [cancelBlock copy];
-        _authenticationChallengeBlock = [authenticationChallengeBlock copy];
+        _serverTrustChallengeBlock = [serverTrustChallengeBlock copy];
         _executing = NO;
         _finished = NO;
         _expectedSize = 0;
@@ -451,9 +451,10 @@ authenticationChallenge:(SDWebImageDownloaderAuthenticationChallengeBlock)authen
             [challenge.sender respondsToSelector:@selector(performDefaultHandlingForAuthenticationChallenge:)]) {
             [challenge.sender performDefaultHandlingForAuthenticationChallenge:challenge];
         } else {
-            if(!(self.options & SDWebImageAuthenticationChallenge) && self.authenticationChallengeBlock ){
-                self.authenticationChallengeBlock(challenge);
+            if(self.serverTrustChallengeBlock){
+                self.serverTrustChallengeBlock(challenge);
             } else {
+				/* accept any saved trusted certificates */
                 NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
                 [[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
             }
